@@ -16,8 +16,9 @@ This form has 5 steps:
 Please fill all sections carefully.
 """)
 
-st.info("Click 'Next' to begin")
+st.info("Click 'Start Application' to begin")
 
 if st.button("Start Application →"):
-    st.session_state.page = "education"
+    st.session_state.current_page = "education"
+    st.session_state.app_data = {}  # Initialize data
     st.rerun()
