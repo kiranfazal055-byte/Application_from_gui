@@ -1,5 +1,9 @@
 import streamlit as st
 
+if st.session_state.get("page") != "experience":
+    st.warning("Please complete previous steps.")
+    st.stop()
+
 st.title("Step 3: Experience")
 
 with st.form("experience_form"):
@@ -11,12 +15,14 @@ with st.form("experience_form"):
 
     submitted = st.form_submit_button("Next → Upload Photo")
     if submitted:
-        st.session_state['app_data'].update({
+        st.session_state.app_data.update({
             'exp_level': exp_level, 'job_title': job_title, 'company': company,
             'years_exp': years, 'exp_desc': description
         })
+        st.session_state.page = "upload"
         st.success("Experience saved!")
-        st.switch_page("pages/5_Upload_Photo.py")
+        st.rerun()
 
 if st.button("← Back"):
-    st.switch_page("pages/3_Skills.py")
+    st.session_state.page = "skills"
+    st.rerun()
