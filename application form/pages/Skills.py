@@ -1,10 +1,13 @@
 import streamlit as st
 
-st.title("Step 2: Skills")
-
-if 'app_data' not in st.session_state:
-    st.error("Please start from the beginning.")
+if st.session_state.get("page") != "skills":
+    st.warning("Please complete previous steps.")
+    if st.button("Go Back"):
+        st.session_state.page = "education"
+        st.rerun()
     st.stop()
+
+st.title("Step 2: Skills")
 
 with st.form("skills_form"):
     st.subheader("Technical Skills")
@@ -19,12 +22,12 @@ with st.form("skills_form"):
 
     submitted = st.form_submit_button("Next → Experience")
     if submitted:
-        st.session_state['app_data'].update({
-            'skills': skills + [s.strip() for s in other_skill.split(',') if s.strip()],
-            'certs': certs
-        })
+        all_skills = skills + [s.strip() for s in other_skill.split(',') if s.strip()]
+        st.session_state.app_data.update({'skills': all_skills, 'certs': certs})
+        st.session_state.page = "experience"
         st.success("Skills saved!")
-        st.switch_page("pages/4_Experience.py")
+        st.rerun()
 
 if st.button("← Back"):
-    st.switch_page("pages/2_Education.py")
+    st.session_state.page = "education"
+    st.rerun()
