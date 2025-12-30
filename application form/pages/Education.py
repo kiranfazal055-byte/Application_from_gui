@@ -1,5 +1,15 @@
 import streamlit as st
 
+if 'page' not in st.session_state:
+    st.session_state.page = "intro"
+
+if st.session_state.page != "education":
+    st.warning("Please start from the beginning.")
+    if st.button("Go to Start"):
+        st.session_state.page = "intro"
+        st.rerun()
+    st.stop()
+
 st.title("Step 1: Personal & Educational Details")
 
 with st.form("education_form"):
@@ -21,10 +31,14 @@ with st.form("education_form"):
         if not name or not email or not phone:
             st.error("Please fill all required fields.")
         else:
-            # Save to session state
-            st.session_state['app_data'] = {
+            st.session_state.app_data = {
                 'name': name, 'email': email, 'phone': phone, 'age': age, 'gender': gender,
                 'degree': degree, 'institution': institution, 'year': year, 'gpa': gpa
             }
+            st.session_state.page = "skills"
             st.success("Saved! Moving to next step...")
-            st.switch_page("pages/3_Skills.py")
+            st.rerun()
+
+if st.button("← Back to Intro"):
+    st.session_state.page = "intro"
+    st.rerun()
