@@ -19,4 +19,5 @@ Please fill all sections carefully.
 st.info("Click 'Next' to begin")
 
 if st.button("Start Application →"):
-    st.switch_page("pages/2_Education.py")
+    st.session_state.page = "education"
+    st.rerun()
